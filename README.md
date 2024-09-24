@@ -21,8 +21,8 @@ LetltCode_codebook
 ├── /math/
 ├── /stl/                Some data strutures defined in STL librarys
 ├── /tree/
-├──  .gitignore
-├──  template.cpp
+├── .gitignore
+├── template.cpp
 └── README.md
 
 ```
