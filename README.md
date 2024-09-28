@@ -19,6 +19,9 @@ LetltCode_codebook
 │  ├── /shortPath/
 │  └── ...
 ├── /math/
+│  ├── /mod/             Some functions use modular arithmetic
+│  ├── /prime/           Some functions to judge prime
+│  └── ...
 ├── /stl/                Some data strutures defined in STL librarys
 ├── /tree/
 ├── .gitignore
