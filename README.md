@@ -12,7 +12,7 @@ LetltCode_codebook
 │  ├── /algo/            Some useful functions in <algorithm.h> and sorting algorithm
 │  ├── /input_output/    Something about I/O, likes getline() and stringstream
 │  ├── accumulate.cpp
-│  ├── binarySearch.cpp  Some functions about binary search, likes lowerbound()
+│  ├── binarySearch.cpp  Some functions about binary search, likes lowerboun
 │  └── ...
 ├── /dp/
 ├── /graph/

@@ -1,0 +1,1020 @@
+\documentclass[12pt, a4paper]{article}
+\usepackage{listings}
+\usepackage{listings}
+\usepackage{xcolor}
+\usepackage{color}
+\definecolor{dkgreen}{rgb}{0,0.6,0}
+\definecolor{codegrey}{rgb}{0.5,0.5,0.5}
+\definecolor{codepurple}{rgb}{0.58,0,0.82}
+\lstset{
+frame=tb,
+language=c++,
+aboveskip=3mm,
+belowskip=3mm,
+showstringspaces=false,
+columns=flexible,
+basicstyle={\small\ttfamily},
+numbers=left,
+numberstyle=\tiny\color{black},
+keywordstyle=\color{blue},
+commentstyle=\color{dkgreen},
+stringstyle=\color{codepurple},
+breaklines=true,
+breakatwhitespace=true,
+tabsize=3
+}
+
+\title{the Codebook of LetltCode}
+\author{Toast 1001}
+
+
+\begin{document}
+\maketitle
+\section{Template}
+\begin{lstlisting}
+#include <bits/stdc++.h>
+
+#define IOS ios::sync_with_stdio(0); cin.tie(0); cout.tie(0);
+#define ll long long
+#define pb push_back
+#define endl '\n'
+
+using namespace std;
+
+int main(){
+    IOS;
+    return 0;
+}
+\end{lstlisting}
+
+\section{Basic}
+\subsection{Algorithm}
+Some useful functions in \textbf{"algorithm.h"} and \textbf{sorting}.
+\begin{enumerate}
+\item algorithm
+
+\begin{lstlisting}
+#include <bits/stdc++.h>
+
+#define IOS ios::sync_with_stdio(0); cin.tie(0); cout.tie(0);
+#define ll long long
+#define pb push_back
+
+using namespace std;
+
+int main(){
+    IOS;
+    vector<int> arr = {38, 27, 43, 43, 3, 9, 82, 10};
+    int a = 1, b = 2;
+
+    // swap(): swap a and b
+    cout << "Before swap: a = " << a << ", b = " << b << endl;
+    swap(a, b);
+    cout << "After swap: a = " << a << ", b = " << b << endl;
+
+    // min_element(): find the minimum element in the range [first, last)
+    cout << "Minimum element in the array: " << *min_element(arr.begin(), arr.end()) << endl;
+
+    // max_element(): find the maximum element in the range [first, last)
+    cout << "Maximum element in the array: " << *max_element(arr.begin(), arr.end()) << endl;
+
+    // nth_element(): rearrange the elements in the range [first, last) 
+    // so that the n-th element is the element that would be in that position in a sorted sequence
+    // The other elements are left without any specific order, 
+    // except that none of the elements preceding nth are greater than it, 
+    // and none of the elements following it are less
+    nth_element(arr.begin(), arr.begin() + 3, arr.end());
+    cout << "The 4th smallest element in the array: " << arr[3] << endl;
+
+    // unique():
+    cout << "Before unique: ";
+    for (int num : arr)
+        cout << num << " ";
+    cout << endl;
+    
+    unique(arr.begin(), arr.end());
+
+    cout << "After unique: ";
+    for (int num : arr)
+        cout << num << " ";
+    cout << endl;
+
+    // reverse(): reverse the order of the elements in the range [first, last)
+    cout << "Before reverse: ";
+    for (int num : arr)
+        cout << num << " ";
+    cout << endl;
+
+    reverse(arr.begin(), arr.end());
+
+    cout << "After reverse: ";
+    for (int num : arr)
+        cout << num << " ";
+    cout << endl;
+
+    return 0;
+}
+\end{lstlisting}
+
+\item merge sort
+
+\begin{lstlisting}
+#include <bits/stdc++.h>
+
+#define IOS ios::sync_with_stdio(0); cin.tie(0); cout.tie(0);
+#define ll long long
+#define pb push_back
+
+using namespace std;
+
+void merge(vector<int>& arr, int l, int mid, int r){
+    int n1 = mid - l + 1;
+    int n2 = r - mid;
+
+    // create two temporary arrays
+    vector<int> larr(n1);
+    vector<int> rarr(n2);
+
+    // copy the data to the temporary arrays
+    for(int i = 0;i < n1;i++){
+        larr[i] = arr[l + i];
+    }
+    for(int i = 0;i < n2;i++){
+        rarr[i] = arr[mid + 1 + i];
+    }
+
+    // merge the two temporary arrays to original array
+    int li = 0, ri = 0, i = l;
+    while(li < n1 && ri < n2){
+        if(larr[li] <= rarr[ri]){
+            arr[i] = larr[li];
+            li++;
+        }else{
+            arr[i] = rarr[ri];
+            ri++;
+        }
+        i++;
+    }
+
+    // remaining elements
+    while(li < n1){
+        arr[i] = larr[li];
+        li++;
+        i++;
+    }
+    while(ri < n2){
+        arr[i] = rarr[ri];
+        ri++;
+        i++;
+    }
+    return;
+}
+
+void mergeSort(vector<int> &arr, int l, int r){
+    if(l < r){
+        // Divide the array into two halves
+        int mid = (l + r) / 2;
+        mergeSort(arr, l, mid);
+        mergeSort(arr, mid + 1, r);
+
+        // merge the two halves
+        merge(arr, l, mid, r);
+    }
+
+    return;
+}
+
+int main(){
+    IOS;
+    vector<int> arr = {38, 27, 43, 3, 9, 82, 10};
+
+    cout << "Original Array: ";
+    for (int num : arr)
+        cout << num << " ";
+    cout << endl;
+
+    // Merge Sort
+    mergeSort(arr, 0, arr.size() - 1);
+
+    cout << "Sorted Array: ";
+    for (int num : arr)
+        cout << num << " ";
+    cout << endl;
+
+    return 0;
+}
+\end{lstlisting}
+
+\item permutation
+
+\begin{lstlisting}
+#include <bits/stdc++.h>
+
+#define IOS ios::sync_with_stdio(0); cin.tie(0); cout.tie(0);
+#define ll long long
+#define pb push_back
+
+using namespace std;
+
+int main(){
+    IOS;
+    vector<int> arr = {1, 2, 3, 4, 5};
+
+    // is_permutation():
+    vector<int> b1 = {1, 5, 4, 3, 2};
+    vector<int> b2 = {1, 2, 3, 4, 6};
+    cout << is_permutation(arr.begin(), arr.end(), b1.begin()) << endl; // 1
+    cout << is_permutation(arr.begin(), arr.end(), b2.begin()) << endl; // 0
+
+    // next_permutation():
+    do{
+        for(int num: arr){
+            cout << num << " ";
+        }
+        cout << endl;
+    }while(next_permutation(arr.begin(), arr.end()));
+    cout << "----------------" << endl;
+
+    // prev_permutation():
+    arr = {5, 4, 3, 2, 1};
+    do{
+        for(int num: arr){
+            cout << num << " ";
+        }
+        cout << endl;
+    }while(prev_permutation(arr.begin(), arr.end()));
+    return 0;
+}
+\end{lstlisting}
+\item selection sort
+\begin{lstlisting}
+#include <bits/stdc++.h>
+
+#define IOS ios::sync_with_stdio(0); cin.tie(0); cout.tie(0);
+#define ll long long
+#define pb push_back
+
+using namespace std;
+
+void selectionSort(vector<int>& arr, int n){
+    for(int i = 0;i < n;i++){
+        swap(arr[i], *min_element(arr.begin() + i, arr.end()));
+    }
+    return;
+}
+
+int main(){
+    IOS;
+    vector<int> arr = {38, 27, 43, 3, 9, 82, 10};
+
+    cout << "Orr: ";
+    for (int num : arr)
+        cout << num << " ";
+    cout << endl;
+
+    // selection sort
+    selectionSort(arr, arr.size());
+
+    cout << "Sorted array: ";
+    for (int num : arr)
+        cout << num << " ";
+    cout << endl;
+    return 0;
+}
+\end{lstlisting}
+\end{enumerate}
+
+\subsection{stringstream}
+
+Something about I/O, likes getline() and stringstream.
+
+\begin{lstlisting}
+#include <bits/stdc++.h>
+
+#define IOS ios::sync_with_stdio(0); cin.tie(0); cout.tie(0);
+#define ll long long
+#define pb push_back
+
+using namespace std;
+
+int main(){
+    IOS;
+
+    vector<string> words = {"Hello", "World", "from", "C++"};
+    string s;
+    for(auto &wd: words){
+        s += wd + " ";
+    }
+
+    stringstream ss(s); // turn string s into stringstream ss
+    string word;
+
+    while(ss >> word){
+        cout << word << endl;
+    }
+    
+    return 0;
+}
+\end{lstlisting}
+
+
+\subsection{accumulate}
+
+\begin{lstlisting}
+#include <bits/stdc++.h>
+
+#define IOS ios::sync_with_stdio(0); cin.tie(0); cout.tie(0);
+#define ll long long
+#define pb push_back
+
+using namespace std;
+
+int main(){
+    IOS;
+
+    vector<int> arr = {38, 27, 43, 3, 9, 82, 10};
+
+    // accumulate(): accumulate the elements in the range [first, last) using init as the initial value
+    int sum = accumulate(arr.begin(), arr.begin() + 4, 0);
+    cout << "Sum of the first 4 elements: " << sum << endl;
+    return 0;
+}
+\end{lstlisting}
+
+\subsection{binary search}
+
+\begin{lstlisting}
+#include <bits/stdc++.h>
+
+#define IOS ios::sync_with_stdio(0); cin.tie(0); cout.tie(0);
+#define ll long long
+#define pb push_back
+
+using namespace std;
+
+int main(){
+    IOS;
+    vector<int> arr = {1, 5, 3, 4, 2, 6, 7, 9, 8, 10};
+
+    // use functions after sorted
+    sort(arr.begin(), arr.end());
+
+    // Binary search
+    // lower_bound(): >= val
+    int pos1 = *lower_bound(arr.begin(), arr.end(), 5);
+
+    // upper_bound(): > val
+    int pos2 = *upper_bound(arr.begin(), arr.end(), 5);
+
+    // < val
+    int pos3 = *(lower_bound(arr.begin(), arr.end(), 5) - 1);
+
+    // <= val
+    int pos4 = *(upper_bound(arr.begin(), arr.end(), 5) - 1);
+    
+    return 0;
+}
+\end{lstlisting}
+
+\begin{figure}
+\centering
+\includegraphics[width=0.25\linewidth]{frog.jpg}
+\caption{\label{fig:frog}This frog was uploaded via the file-tree menu.}
+\end{figure}
+
+\section{Dynamic Programming}
+\subsection{Longest Common Subsequence}
+\begin{lstlisting}
+#include <bits/stdc++.h>
+
+#define IOS ios::sync_with_stdio(0); cin.tie(0); cout.tie(0);
+#define ll long long
+#define pb push_back
+#define endl '\n'
+
+using namespace std;
+
+int lcsLen(string s1, string s2, vector<vector<int>> &dp){
+    int n = s1.size();
+    int m = s2.size();
+    for(int i = 0;i < n + 1;i++){
+        dp[i][0] = 0;
+    }
+
+    for(int j = 0;j < m + 1;j++){
+        dp[0][j] = 0;
+    }
+
+    for(int i = 1;i < n + 1;i++){
+        for(int j = 1;j < m + 1;j++){
+            if(s1[i - 1] == s2[j - 1]){
+                dp[i][j] = dp[i - 1][j - 1] + 1;
+            }else{
+                dp[i][j] = max(dp[i - 1][j], dp[i][j - 1]);
+            }
+        }
+    }
+    return dp[n][m];
+}
+
+string lcs(string s1, string s2, vector<vector<int>> &dp){
+    int n = s1.size();
+    int m = s2.size();
+    int lcslen = lcsLen(s1, s2, dp);
+    string lcsstr = "";
+
+    int i = n, j = m;
+    while(i > 0 && j > 0){
+        if(s1[i - 1] == s2[j - 1]){
+            lcsstr += s1[i - 1];
+            i--;
+            j--;
+        }else{
+            if(dp[i - 1][j] > dp[i][j - 1]){
+                i--;
+            }else{
+                j--;
+            }
+        }
+    }
+    reverse(lcsstr.begin(), lcsstr.end());
+    return lcsstr;
+}
+
+int main(){
+    IOS;
+    string s1, s2;
+    cin >> s1 >> s2;
+
+    int n = s1.size();
+    int m = s2.size();
+    vector<vector<int>> dp(n + 1, vector<int>(m + 1, 0));
+
+    int lcslen = lcsLen(s1, s2, dp);
+    string lcsstr = lcs(s1, s2, dp);
+    cout << "Length of LCS: " << lcslen << endl;
+    cout << "LCS: " << lcsstr << endl;
+
+    return 0;
+}
+\end{lstlisting}
+
+\subsection{Longest Increasing Subsequence}
+\begin{lstlisting}
+#include <bits/stdc++.h>
+
+#define IOS ios::sync_with_stdio(0); cin.tie(0); cout.tie(0);
+#define ll long long
+#define pb push_back
+#define endl '\n'
+
+using namespace std;
+
+int main(){
+    IOS;
+    
+    vector<int> a = {10, 22 ,9, 33, 21, 50, 41, 60, 80};
+
+    int n = a.size();
+    vector<int> dp(n, 1); 
+    vector<int> v;        
+    v.pb(a[0]);
+    int lislen = 1;       
+
+    // Count the length of LIS
+    for(int i = 1;i < n;i++){
+        if(a[i] > v.back()){ 
+            v.pb(a[i]);
+            dp[i] = v.size();
+            lislen = max(lislen, dp[i]);
+        }else{
+            auto it = lower_bound(v.begin(), v.end(), a[i]); 
+            *it = a[i]; // v[it] = a[i]
+            dp[i] = it - v.begin() + 1;
+        }
+    }
+
+    cout << "LIS length: " << lislen << endl;
+
+    // Find LIS
+    vector<int> lis;
+    for(int i = n - 1;i >= 0;i--){
+        if(dp[i] == lislen){
+            lis.pb(a[i]);
+            lislen--;
+        }
+    }
+
+    reverse(lis.begin(), lis.end());
+    cout << "LIS: ";
+    for(int i = 0;i < lis.size();i++){
+        cout << lis[i] << " ";
+    }
+    cout << endl;
+    return 0;
+}
+\end{lstlisting}
+
+\section{Graph}
+\subsection{Dijkstra}
+
+Only can use in graph without nagative weights.
+
+\begin{lstlisting}
+#include <bits/stdc++.h>
+
+#define IOS ios::sync_with_stdio(0); cin.tie(0); cout.tie(0);
+#define ll long long
+#define pb push_back
+#define endl '\n'
+
+using namespace std;
+
+int main(){
+    IOS;
+    int n; // number of nodes
+    int m; // number of edges
+
+    cin >> n >> m;
+
+    vector<vector<int>> path(n, vector<int>(n, INT_MAX)); // path[i][j]: the distance between node i and node j
+    vector<int> dis(n, INT_MAX); // dis[i]: the shortest distance between start node and node i
+    vector<bool> vis(n, false); // vis[i]: whether node i is visited
+
+    for(int i = 0;i < m;i++){
+        int a, b, d;
+        cin >> a >> b >> d;
+        path[a - 1][b - 1] = d;
+        path[b - 1][a - 1] = d; // if the graph is undirected
+    }
+
+    // initialization
+    priority_queue<pair<int, int>, vector<pair<int, int>>, greater<pair<int, int>>> pq; // min heap
+    pq.push({0, 0});
+
+    // dijkstra
+    while(!pq.empty()){
+        auto [d, u] = pq.top();
+        pq.pop();
+        if(vis[u]) continue;
+        vis[u] = true;
+        dis[u] = d;
+        for(int v = 0;v < n;v++){
+            if(path[u][v] != INT_MAX && !vis[v]){ // relax
+                pq.push({d + path[u][v], v});
+            }
+        }
+    }
+
+    // the distance between start node (node 0) and other nodes
+    for(int i = 1;i < n;i++){
+        cout << "node " << i << ": " << dis[i] << endl;
+    }
+    return 0;
+}
+\end{lstlisting}
+\subsection{Bellman-Ford}
+\begin{lstlisting}
+#include <bits/stdc++.h>
+
+#define IOS ios::sync_with_stdio(0); cin.tie(0); cout.tie(0);
+#define ll long long
+#define pb push_back
+#define endl '\n'
+
+using namespace std;
+
+int main(){
+    IOS;
+    int n; // number of nodes
+    int m; // number of edges
+
+    cin >> n >> m;
+
+    vector<tuple<int, int, int>> edges; // edges[i]: {a, b, d}, edge from node a to node b with distance d
+    vector<ll> dis(n, INT_MAX); // dis[i]: the shortest distance between start node and node i
+
+    for(int i = 0;i < m;i++){
+        int a, b, d;
+        cin >> a >> b >> d;
+        edges.pb({a, b, d});
+        edges.pb({b, a, d}); // if the graph is undirected
+    }
+
+    // Initialization
+    dis[0] = 0;
+
+    // Bellman-Ford algorithm
+    for(int i = 0;i < n;i++){
+        bool check = false;
+        for(auto &e: edges){
+            int a, b, d;
+            tie(a, b, d) = e;
+            if(dis[a - 1] + d < dis[b - 1]){
+                dis[b - 1] = dis[a - 1] + d;
+                check = true;
+            }
+        }
+        if(!check)break;
+    }
+
+    // the distance between start node (node 0) and other nodes
+    for(int i = 1;i < n;i++){
+        cout << "node " << i << ": " << dis[i] << endl;
+    }
+    return 0;
+}
+\end{lstlisting}
+\subsection{SPFA}
+\begin{lstlisting}
+#include <bits/stdc++.h>
+
+#define IOS ios::sync_with_stdio(0); cin.tie(0); cout.tie(0);
+#define ll long long
+#define pb push_back
+#define endl '\n'
+
+using namespace std;
+
+int main(){
+    IOS;
+    int n; // number of nodes
+    int m; // number of edges
+
+    cin >> n >> m;
+
+    vector<vector<int>> path(n, vector<int>(n, INT_MAX)); // path[i][j]: the distance between node i and node j
+    vector<int> dis(n, INT_MAX); // dis[i]: the shortest distance between start node and node i
+
+    for(int i = 0;i < m;i++){
+        int a, b, d;
+        cin >> a >> b >> d;
+        path[a - 1][b - 1] = d;
+    }
+
+    // initialization
+    queue<int> q;
+    q.push(0);
+    dis[0] = 0;
+
+    // spfa
+    while(!q.empty()){
+        int now = q.front();
+        q.pop();
+
+        for(int i = 0;i < n;i++){
+            if(dis[now] + path[now][i] < dis[i] && path[now][i] != INT_MAX){
+                dis[i] = dis[now] + path[now][i];
+                q.push(i);
+            }
+        }
+    }
+
+    // the distance between start node (node 0) and other nodes
+    for(int i = 1;i < n;i++){
+        cout << "node " << i << ": " << dis[i] << endl;
+    }
+    return 0;
+}
+\end{lstlisting}
+
+\section{Math}
+\subsection{Fast Power}
+\begin{enumerate}
+\item {Fast pow}
+\begin{lstlisting}
+#include <bits/stdc++.h>
+
+#define IOS ios::sync_with_stdio(0); cin.tie(0); cout.tie(0);
+#define ll long long
+#define pb push_back
+#define endl '\n'
+
+using namespace std;
+
+ll fastPow(int x, int n){
+    if(n == 0) return 1;
+    ll ans = fastPow(x, n/2);
+    if(n % 2 == 0) return ans * ans;
+    return ans * ans * x;
+}
+
+int main(){
+    IOS;
+    cout << fastPow(2, 10);
+}
+\end{lstlisting}
+\item {Fast pow of 2 × 2 Matrix}
+\begin{lstlisting}
+#include <bits/stdc++.h>
+
+#define IOS ios::sync_with_stdio(0); cin.tie(0); cout.tie(0);
+#define ll long long
+#define pb push_back
+#define endl '\n'
+
+using namespace std;
+
+typedef struct _matrix{
+    ll c00, c10, c01, c11;   
+} matrix;
+
+matrix multiply(matrix a, matrix b){
+    matrix ans;
+    ans.c00 = (a.c00 * b.c00 + a.c01 * b.c10);
+    ans.c10 = (a.c10 * b.c00 + a.c11 * b.c10);
+    ans.c01 = (a.c00 * b.c01 + a.c01 * b.c11);
+    ans.c11 = (a.c10 * b.c01 + a.c11 * b.c11);
+    return ans;
+}
+
+matrix matrixFastPow(matrix x, int n){
+    matrix ans = {1, 0, 0, 1};
+    if(n == 0) return ans;
+    ans = matrixFastPow(x, n/2);
+    if(n % 2 == 0) return multiply(ans, ans);
+    return multiply(multiply(ans, ans), x);
+}
+
+int main(){
+    IOS;
+    matrix x = {1, 1, 1, 0};
+    matrix ans = matrixFastPow(x, 5);
+    cout << ans.c00 << "    " << ans.c01 << endl;
+    cout << ans.c10 << "    " << ans.c11 << endl;
+    return 0;
+}
+\end{lstlisting}
+\item {Fast Fibonacci}
+\begin{lstlisting}
+#include <bits/stdc++.h>
+
+#define IOS ios::sync_with_stdio(0); cin.tie(0); cout.tie(0);
+#define ll long long
+#define pb push_back
+#define endl '\n'
+
+using namespace std;
+
+typedef struct _matrix{
+    ll c00, c10, c01, c11;   
+} matrix;
+
+matrix multiply(matrix a, matrix b){
+    matrix ans;
+    ans.c00 = (a.c00 * b.c00 + a.c01 * b.c10);
+    ans.c10 = (a.c10 * b.c00 + a.c11 * b.c10);
+    ans.c01 = (a.c00 * b.c01 + a.c01 * b.c11);
+    ans.c11 = (a.c10 * b.c01 + a.c11 * b.c11);
+    return ans;
+}
+
+matrix matrixFastPow(matrix x, int n){
+    matrix ans = {1, 0, 0, 1};
+    if(n == 0) return ans;
+    ans = matrixFastPow(x, n/2);
+    if(n % 2 == 0) return multiply(ans, ans);
+    return multiply(multiply(ans, ans), x);
+}
+
+ll fib(int n){
+    if(n == 0)return 0;
+    matrix x = {1, 1, 1, 0};
+    return matrixFastPow(x, n - 1).c00;
+}
+int main(){
+    IOS;
+
+    int n;
+    cin >> n;
+    cout << fib(n) << endl;
+    return 0;
+}
+\end{lstlisting}
+\end{enumerate}
+
+\subsection{Mod}
+\begin{enumerate}
+\item {GCD and LCM}
+\begin{lstlisting}
+#include <bits/stdc++.h>
+
+#define IOS ios::sync_with_stdio(0); cin.tie(0); cout.tie(0);
+#define ll long long
+#define pb push_back
+#define endl '\n'
+
+using namespace std;
+
+int gcd(int a, int b){
+    return b == 0 ? a : gcd(b, a % b);
+}
+
+int lcm(int a, int b){
+    return a / gcd(a, b) * b;
+}
+
+int main(){
+    IOS;
+    int a, b;
+    cin >> a >> b;
+    cout << "GCD: " << gcd(a, b) << endl;
+    cout << "LCM: " << lcm(a, b) << endl; 
+    return 0;
+}
+\end{lstlisting}
+\item {eGCD}
+\begin{lstlisting}
+#include <bits/stdc++.h>
+
+#define IOS ios::sync_with_stdio(0); cin.tie(0); cout.tie(0);
+#define ll long long
+#define pb push_back
+#define endl '\n'
+
+using namespace std;
+
+int egcd(int a, int b, int &x, int &y){
+    if(b == 0){
+        x = 1;
+        y = 0;
+        return a;
+    }
+    int x1, y1;
+    int gcd = egcd(b, a % b, x1, y1);
+
+    // Update x and y
+    x = y1;
+    y = x1 - (a / b) * y1;
+
+    return gcd;
+}
+
+int main(){
+    IOS;
+    int a, b, x, y;
+    cin >> a >> b;
+    int gcd = egcd(a, b, x, y);
+    cout << "GCD: " << gcd << endl;
+    cout << "x: " << x << ", y: " << y << endl;
+    cout << "Equation: " << a << "*" << x << " + " << b << "*" << y << " = " << gcd << endl;
+    return 0;
+}
+\end{lstlisting}
+\end{enumerate}
+
+\subsection{Prime}
+\begin{enumerate}
+\item {Generating primes}
+\begin{lstlisting}
+#include <bits/stdc++.h>
+
+#define IOS ios::sync_with_stdio(0); cin.tie(0); cout.tie(0);
+#define ll long long
+#define pb push_back
+#define endl '\n'
+
+using namespace std;
+
+int main(){
+    IOS;
+    vector<bool> isPrime(1000001, true);
+    isPrime[0] = false;
+    isPrime[1] = false;
+
+    for(int i = 2;i < 1000001;i++){
+        if(isPrime[i]){
+            for(int j = i * 2;j < 1000001;j += i){
+                isPrime[j] = false;
+            }
+        }
+    }
+    return 0;
+}
+\end{lstlisting}
+\item {Single Prime Judge}
+\begin{lstlisting}
+#include <bits/stdc++.h>
+
+#define IOS ios::sync_with_stdio(0); cin.tie(0); cout.tie(0);
+#define ll long long
+#define pb push_back
+#define endl '\n'
+
+using namespace std;
+
+bool prime(int n)
+{
+    if(n<2) return false;
+    if(n<=3) return true;
+    if(!(n%2) || !(n%3)) return false;
+    for(int i=5;i*i<=n;i+=6)
+        if(!(n%i) || !(n%(i+2))) return false;
+    
+    return true;
+}
+
+int main(){
+    IOS;
+    int n;
+    cin >> n;
+    cout << prime(n) << endl;
+    return 0;
+}
+\end{lstlisting}
+\end{enumerate}
+
+\subsection{Binomial Coefficient}
+\begin{lstlisting}
+#include <bits/stdc++.h>
+
+#define IOS ios::sync_with_stdio(0); cin.tie(0); cout.tie(0);
+#define ll long long
+#define pb push_back
+#define endl '\n'
+
+using namespace std;
+
+int main(){
+    IOS;
+    return 0;
+}
+\end{lstlisting}
+
+\section{Tree}
+\subsection{Segment Tree}
+\begin{lstlisting}
+#include <bits/stdc++.h>
+
+#define IOS ios::sync_with_stdio(0); cin.tie(0); cout.tie(0);
+#define ll long long
+#define pb push_back
+#define endl '\n'
+
+using namespace std;
+
+static int segment_tree[10000] = {0};
+
+void build(int l, int r, int pos, int arr[]){
+    if(l == r){
+        segment_tree[pos] = arr[l];
+        return;
+    }
+    int mid = (l + r) / 2;
+    build(l, mid, 2 * pos + 1, arr);
+    build(mid + 1, r, 2 * pos + 2, arr);
+    segment_tree[pos] = segment_tree[2 * pos + 1] + segment_tree[2 * pos + 2];
+}
+
+void modify(int l, int r, int pos, int idx, int val){
+    if(l == r){
+        segment_tree[pos] = val;
+        return;
+    }
+    int mid = (l + r) / 2;
+    if(idx <= mid){
+        modify(l, mid, 2 * pos + 1, idx, val);
+    }else{
+        modify(mid + 1, r, 2 * pos + 2, idx, val);
+    }
+    segment_tree[pos] = segment_tree[2 * pos + 1] + segment_tree[2 * pos + 2];
+}
+\end{lstlisting}
+
+\subsection{Tries}
+\begin{lstlisting}
+#include <bits/stdc++.h>
+
+#define IOS ios::sync_with_stdio(0); cin.tie(0); cout.tie(0);
+#define ll long long
+#define pb push_back
+#define endl '\n'
+
+using namespace std;
+
+class Trie{
+public:
+    Trie* child[26];
+    int visited = 0;
+    bool isEnd = false;
+}
+
+int main(){
+    IOS;
+    string s = "hello";
+    Trie* root = new Trie();
+
+    for(int i = 0; i < s.size(); i++){
+        if(root->child[s[i] - 'a'] == NULL){
+            root->child[s[i] - 'a'] = new Trie();
+        }
+        root = root->child[s[i] - 'a'];
+        root->visited++;
+    }
+    root->isEnd = true;
+    
+    return 0;
+}
+\end{lstlisting}
+
+\end{document}
