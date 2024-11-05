@@ -1,6 +1,7 @@
 # LetltCode Codebook  
 ![contributor](https://img.shields.io/github/contributors/boyan1001/LetltCode_codebook?style=for-the-badge)
 ![Last Commit](https://img.shields.io/github/last-commit/boyan1001/LetltCode_codebook?style=for-the-badge)
+![license](https://img.shields.io/badge/license-CC0-brightgreen?style=for-the-badge)
 ![C++](https://img.shields.io/badge/C++-00599C.svg?logo=c%2B%2B&logoColor=white&style=for-the-badge)
 
 
